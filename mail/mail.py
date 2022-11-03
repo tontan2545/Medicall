@@ -10,13 +10,13 @@ from jinja2 import Environment
 
 class Email:
     def __init__(
-            self,
-            mail_to: List[str],
-            mail_from: str,
-            password: str = None,
-            subject=None,
-            template_variables=None,
-            template_path: str = "mail/templates/test.html"
+        self,
+        mail_to: List[str],
+        mail_from: str,
+        password: str = None,
+        subject=None,
+        template_variables=None,
+        template_path: str = "mail/templates/test.html",
     ):
         if template_variables is None:
             template_variables = {}
@@ -31,26 +31,27 @@ class Email:
         self.template_variables = template_variables
 
     def __get_email_content(self) -> MIMEText:
-        message = MIMEText(Environment().from_string(self.content).render(**self.template_variables), "html")
-        message['Subject'] = self.subject
-        message['To'] = ", ".join(self.mail_to)
-        message['From'] = self.mail_from
+        message = MIMEText(
+            Environment().from_string(self.content).render(**self.template_variables),
+            "html",
+        )
+        message["Subject"] = self.subject
+        message["To"] = ", ".join(self.mail_to)
+        message["From"] = self.mail_from
         return message
 
     def __process_email(self) -> (MIMEText, SMTP):
         message = self.__get_email_content()
 
-        server = server_login(server=self.server,
-                              server_type=self.server_type,
-                              username=self.mail_from,
-                              password=self.password)
+        server = server_login(
+            server=self.server,
+            server_type=self.server_type,
+            username=self.mail_from,
+            password=self.password,
+        )
         return message, server
 
-    def __send_email(
-            self,
-            server: SMTP,
-            message: MIMEText
-    ):
+    def __send_email(self, server: SMTP, message: MIMEText):
         try:
             server.sendmail(self.mail_from, self.mail_to, message.as_string())
             server.quit()
