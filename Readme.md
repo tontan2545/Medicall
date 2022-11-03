@@ -5,15 +5,15 @@ Our mission is to provide a low-cost, easy-to-use, and accurate device for patie
 
 ---
 ## Setup
-### Install python dependencies
+### Run setup script
+This will do the following
+- Generate and activate virtual env file
+- Install required python packages
+- Copy `.env.local` and rename to `.env`
 
 ```bash
-pip install -r requitements.txt
+make setup
 ```
-
-### Generate env file
-
-Copy `local.env` to `.env` and fill the corresponding values
 
 ### Run local mail server
 
