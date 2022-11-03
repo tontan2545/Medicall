@@ -10,7 +10,8 @@ def get_smtp_server(variant: ServerType) -> SMTP:
     raise Exception("Unknown server type")
 
 
-def server_login(server: SMTP, server_type: ServerType, username: str, password: str) -> SMTP:
+def server_login(server: SMTP, server_type: ServerType, username: str,
+                 password: str) -> SMTP:
     if server_type == ServerType.LOCALHOST:
         return server
     if password is None:
