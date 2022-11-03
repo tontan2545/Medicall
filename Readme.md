@@ -3,8 +3,8 @@ Medicall is an IoT device which aids doctors in performing common diagnosis for 
 
 Our mission is to provide a low-cost, easy-to-use, and accurate device for patients to use in their daily practice.
 
-# Setup
-## Run setup script
+## Setup
+### Run setup script
 This will do the following
 - Generate and activate virtual env file
 - Install required python packages
@@ -14,7 +14,7 @@ This will do the following
 make setup
 ```
 
-## Run local mail server
+### Run local mail server
 
 This will run a local mail server on port 1025. When a mail is sent it'll be intercepted by the local mail server and will not be sent to real mail
 
