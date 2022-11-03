@@ -1,6 +1,5 @@
 import os
 from mail.mail import Email
-from mail.enums.server_type import ServerType
 from dotenv import load_dotenv
 
 load_dotenv()
