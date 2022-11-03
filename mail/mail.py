@@ -9,6 +9,7 @@ from jinja2 import Environment
 
 
 class Email:
+
     def __init__(self,
                  mail_to: List[str],
                  mail_from: str,
