@@ -2,6 +2,7 @@ from paho.mqtt import client
 
 
 class MQTT:
+
     def __init__(self):
         self._subscribe_topics = ["data/user", "data/sensor", "auth"]
         self._host_name = "localhost"

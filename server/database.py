@@ -21,7 +21,9 @@ class Database:
         try:
             cluster = MongoClient(self.db_url)
         except:
-            logging.error("Cannot connect to Mongo Database. Please check connection and retry. \n")
+            logging.error(
+                "Cannot connect to Mongo Database. Please check connection and retry. \n"
+            )
             sys.exit(1)
 
         self.db = cluster[self.cluster_name]
@@ -31,17 +33,16 @@ class Database:
 
     def insert_record(self, data: Dict, patient_id: str):
         self.records_collection.insert_one({
-            "patient_id": patient_id,
-            "prediction": self.predictSickness(data),
+            "patient_id":
+            patient_id,
+            "prediction":
+            self.predictSickness(data),
             **data
         })
 
     def insert_patient(self, data: Dict):
         patient_id = bson.ObjectId()
-        self.patients_collection.insert_one({
-            "_id": patient_id,
-            **data
-        })
+        self.patients_collection.insert_one({"_id": patient_id, **data})
         return patient_id
 
     def find_patient(self, patient_id):
@@ -53,13 +54,19 @@ class Database:
         df['Result'].replace(['Positive', 'Negative'], [1, 0], inplace=True)
         x = df.drop('Result', axis=1)
         y = df['Result']
-        x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3)
+        x_train, x_test, y_train, y_test = train_test_split(x,
+                                                            y,
+                                                            test_size=0.3)
         # We choose kernel='rbf'
         self.predictor = SVC(C=5, gamma='auto')
         self.predictor.fit(x_train, y_train)
 
     def predictSickness(self, data):
-        d = {'Oxy': [data["spo2"]], 'Pulse': [data["hr"]], 'Temp': [data["temp"]]}
+        d = {
+            'Oxy': [data["spo2"]],
+            'Pulse': [data["hr"]],
+            'Temp': [data["temp"]]
+        }
         df = pd.DataFrame(data=d)
         result = self.predictor.predict(df)[0]
         if (result):

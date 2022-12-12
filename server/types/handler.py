@@ -17,4 +17,3 @@ class Handler:
     user_data: Dict
     sensor_data: Dict
     next: Callable
-
