@@ -1,7 +1,7 @@
 import os
 from email.mime.text import MIMEText
 from smtplib import SMTP
-from typing import List, Dict
+from typing import List
 from mail.enums.server_type import ServerType
 from mail.utils.server import get_smtp_server, server_login
 from mail.utils.read_file_content import read_file_content
