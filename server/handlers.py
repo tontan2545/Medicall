@@ -22,7 +22,8 @@ def login_handler(handler: Handler):
 
 
 def signup_handler(handler: Handler):
-    if handler.msg["topic"] == "data/user" and type(handler.msg["payload"]) == "dict":
+    if handler.msg["topic"] == "data/user" and type(
+            handler.msg["payload"]) == "dict":
         patient_id = handler.db.insert_patient(handler.msg["payload"])
         handler.patient_id = patient_id
         handler.next(3)
@@ -49,7 +50,8 @@ def camera_handler(handler: Handler):
 
 
 def end_handler(handler: Handler):
-    handler.db.insert_record(data=handler.sensor_data, patient_id=handler.patient_id)
+    handler.db.insert_record(data=handler.sensor_data,
+                             patient_id=handler.patient_id)
 
 
 def email_handler(handler: Handler):

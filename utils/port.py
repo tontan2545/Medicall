@@ -9,11 +9,14 @@ def get_port(port: Optional[str]) -> str:
 
 def scan_usb_serial() -> str:
     com_ports = list_ports.comports()
-    devices = list(filter(lambda x: re.match(r'/dev/tty.usbmodem\w{4}', x.device), com_ports))
+    devices = list(
+        filter(lambda x: re.match(r'/dev/tty.usbmodem\w{4}', x.device),
+               com_ports))
     if len(devices) < 1:
         raise Exception('No STM found')
     if len(devices) > 1:
-        raise Exception(f"Multiple devices found, please select the following: {[x.device for x in devices]}")
+        raise Exception(
+            f"Multiple devices found, please select the following: {[x.device for x in devices]}"
+        )
     print("Connected to STM32 at", devices[0].device)
     return devices[0].device
-

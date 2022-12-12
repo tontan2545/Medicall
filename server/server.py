@@ -24,6 +24,7 @@ def on_subscribe(client, userdata, mid, granted_qos):
 
 
 class Server:
+
     def __init__(self):
         self.user_data = {}
         self.sensor_data = {}
@@ -58,18 +59,13 @@ class Server:
             try:
                 msg = self.queue.get(block=False)
             except Exception as e:
-                msg: Message = {
-                    "payload": None,
-                    "topic": None
-                }
-            handler = Handler(
-                mqtt=self.mqtt,
-                serial= None,
-                msg=msg,
-                next=self.next_state,
-                sensor_data=self.sensor_data,
-                user_data=self.user_data,
-                db=self.db,
-                patient_id=self.patient_id
-            )
+                msg: Message = {"payload": None, "topic": None}
+            handler = Handler(mqtt=self.mqtt,
+                              serial=None,
+                              msg=msg,
+                              next=self.next_state,
+                              sensor_data=self.sensor_data,
+                              user_data=self.user_data,
+                              db=self.db,
+                              patient_id=self.patient_id)
             self.state_handlers[self.state](handler)

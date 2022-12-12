@@ -16,6 +16,7 @@ def decode_data(data) -> list:
 
 
 class STM32Serial:
+
     def __init__(self, port: str = None):
         self.reader = Serial(port=get_port(port), baudrate=115200, timeout=.1)
 
