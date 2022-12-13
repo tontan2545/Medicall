@@ -1,11 +1,12 @@
 import os
 from email.mime.text import MIMEText
 from smtplib import SMTP
-from typing import List
+from typing import List, Optional
 from mail.enums.server_type import ServerType
 from mail.utils.server import get_smtp_server, server_login
 from mail.utils.read_file_content import read_file_content
 from jinja2 import Environment
+
 
 
 class Email:
@@ -13,12 +14,25 @@ class Email:
     def __init__(self,
                  mail_to: List[str],
                  mail_from: str,
-                 password: str = None,
+                 password: Optional[str] = None,
                  subject=None,
                  template_variables=None,
                  template_path: str = "mail/templates/test.html"):
         if template_variables is None:
-            template_variables = {}
+            template_variables = {
+                "name": "Tasha",
+                "test_id": "123",
+                "gender": "female",
+                "age": "21000",
+                "email": "wowx",
+                "phone_no": "0001",
+                "height": "Tasha",
+                "temp": "123",
+                "heart": "female",
+                "oxygen": "21000",
+                "sickness_pred": "wowx",
+                "emotion_detect": "0001",
+            }
         self.debug = os.getenv("debug") == "true"
         self.mail_to = mail_to
         self.mail_from = mail_from
@@ -38,14 +52,14 @@ class Email:
         message['From'] = self.mail_from
         return message
 
-    def __process_email(self) -> (MIMEText, SMTP):
+    def __process_email(self) -> (MIMEText, SMTP):  #type: ignore
         message = self.__get_email_content()
 
         server = server_login(
             server=self.server,
             server_type=self.server_type,
             username=self.mail_from,
-            password=self.password,
+            password=self.password, #type: ignore
         )
         return message, server
 
