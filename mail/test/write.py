@@ -1,12 +1,20 @@
-
 from jinja2 import Environment, FileSystemLoader
 
 max_score = 100
 test_name = "Python Challenge"
 students = [
-    {"name": "Sandrine",  "score": 100},
-    {"name": "Gergeley", "score": 87},
-    {"name": "Frieda", "score": 92},
+    {
+        "name": "Sandrine",
+        "score": 100
+    },
+    {
+        "name": "Gergeley",
+        "score": 87
+    },
+    {
+        "name": "Frieda",
+        "score": 92
+    },
 ]
 
 environment = Environment(loader=FileSystemLoader("templates/"))
@@ -21,5 +29,3 @@ context = {
 with open(results_filename, mode="w", encoding="utf-8") as results:
     results.write(results_template.render(context))
     print(f"... wrote {results_filename}")
-
-        
