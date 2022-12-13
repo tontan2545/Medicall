@@ -8,7 +8,6 @@ from mail.utils.read_file_content import read_file_content
 from jinja2 import Environment
 
 
-
 class Email:
 
     def __init__(self,
@@ -59,7 +58,7 @@ class Email:
             server=self.server,
             server_type=self.server_type,
             username=self.mail_from,
-            password=self.password, #type: ignore
+            password=self.password,  #type: ignore
         )
         return message, server
 
