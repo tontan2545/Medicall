@@ -102,8 +102,7 @@ def end_handler(handler: Handler):
                       "spo2": handler.sensor_data["spo2"],
                       "sickness_pred": "not sick",
                       "emotion_detect": handler.sensor_data["emotion_detect"],
-                  }
-                  )
+                  })
     email.send()
     print("Uploaded record to database")
     handler.next()

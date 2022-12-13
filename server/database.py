@@ -35,7 +35,8 @@ class Database:
     def insert_record(self, data: Dict, patient_id: str):
         id = bson.ObjectId()
         self.records_collection.insert_one({
-            "_id": id,
+            "_id":
+            id,
             "patient_id":
             patient_id,
             "prediction":
