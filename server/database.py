@@ -33,13 +33,16 @@ class Database:
         self.initPredictor()
 
     def insert_record(self, data: Dict, patient_id: str):
+        id = bson.ObjectId()
         self.records_collection.insert_one({
+            "_id": id,
             "patient_id":
             patient_id,
             "prediction":
             self.predictSickness(data),
             **data
         })
+        return id
 
     def insert_patient(self, data: Dict):
         patient_id = self.patients_collection.count_documents({}) + 1

@@ -67,6 +67,9 @@ class Server:
                 msg = self.queue.get(block=False)
             except Exception as e:
                 msg: Message = {"payload": None, "topic": None}
+            if self.state == 7:
+                print("Done, terminating")
+                break
             handler = Handler(mqtt=self.mqtt,
                               serial=None,
                               msg=msg,

@@ -1,6 +1,8 @@
+import os
 import sys
 from server.types.handler import Handler
 from server.img_detection import getEmotion
+from mail.mail import Email
 
 
 def start_handler(handler: Handler):
@@ -74,13 +76,37 @@ def hr_handler(handler: Handler):
 
 def camera_handler(handler: Handler):
     emotion = getEmotion()
+    print(emotion)
     handler.sensor_data["emotion_detect"] = emotion
     handler.next()
 
 
 def end_handler(handler: Handler):
-    handler.db.insert_record(data=handler.sensor_data,
-                             patient_id=handler.patient_id)
+    id = handler.db.insert_record(data=handler.sensor_data,
+                                  patient_id=handler.patient_id)
+    email = Email(mail_to=["tontan2545@gmail.com"],
+                  mail_from="medicallnoreply@gmail.com",
+                  password=os.getenv("GMAIL_PASSWORD"),
+                  subject="Test",
+                  template_path="mail/templates/report.html",
+                  template_variables={
+                      "name": handler.user_data["name"],
+                      "test_id": id,
+                      "gender": handler.user_data["sex"],
+                      "age": handler.user_data["age"],
+                      "email": handler.user_data["email"],
+                      "phone_no": handler.user_data["phone"],
+                      "height": handler.sensor_data["height"],
+                      "temp": handler.sensor_data["temp"],
+                      "hr": handler.sensor_data["hr"],
+                      "spo2": handler.sensor_data["spo2"],
+                      "sickness_pred": "not sick",
+                      "emotion_detect": handler.sensor_data["emotion_detect"],
+                  }
+                  )
+    email.send()
+    print("Uploaded record to database")
+    handler.next()
 
 
 def email_handler(handler: Handler):
