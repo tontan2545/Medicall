@@ -28,8 +28,8 @@ class Email:
                 "phone_no": "0001",
                 "height": "Tasha",
                 "temp": "123",
-                "heart": "female",
-                "oxygen": "21000",
+                "hr": "female",
+                "spo2": "21000",
                 "sickness_pred": "wowx",
                 "emotion_detect": "0001",
             }
