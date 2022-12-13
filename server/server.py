@@ -58,10 +58,7 @@ class Server:
             payload = str(msg.payload.decode("utf-8"))
             print(e)
         print(type(payload))
-        self.queue.put({
-            "topic": msg.topic,
-            "payload": payload
-        })
+        self.queue.put({"topic": msg.topic, "payload": payload})
 
     def start(self):
         self.mqtt.start(on_connect, self.on_message, on_publish, on_subscribe)

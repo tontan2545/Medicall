@@ -4,7 +4,10 @@ from paho.mqtt import client
 class MQTT:
 
     def __init__(self):
-        self._subscribe_topics = ["data/user", "data/sensor", "auth/login", "auth/signup", "height", "hr", "spo2", "temp"]
+        self._subscribe_topics = [
+            "data/user", "data/sensor", "auth/login", "auth/signup", "height",
+            "hr", "spo2", "temp"
+        ]
         self._host_name = "192.168.68.118"
         self._port = 1883
         self.client = client.Client()
