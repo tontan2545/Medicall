@@ -1,8 +1,9 @@
-Jinja2==3.1.2
-MarkupSafe==2.1.1
-python-dotenv==0.21.0
-pyserial~=3.4
+Adafruit_Blinka==8.9.0
+adafruit_circuitpython_fingerprint==2.2.10
+Jinja2==2.11.3
 paho_mqtt==1.6.1
 pandas==1.5.2
 pymongo==4.3.3
+python-dotenv==0.21.0
 scikit_learn==1.2.0
+markupsafe==2.0.1

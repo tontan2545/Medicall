@@ -1,3 +1,4 @@
+import ast
 from queue import Queue
 
 from typing import Dict, Callable
@@ -7,6 +8,7 @@ from server.handlers import *
 
 from server.mqtt import MQTT
 from server.serial import STM32Serial
+from server.fingerprint import Fingerprint
 from server.types.handler import Handler
 from server.types.message import Message
 
@@ -30,27 +32,35 @@ class Server:
         self.sensor_data = {}
         self.state_handlers: Dict[int, Callable[[Handler], None]] = {
             0: start_handler,
-            1: login_handler,
-            2: signup_handler,
-            3: serial_handler,
-            4: camera_handler,
-            5: email_handler,
+            1: height_handler,
+            2: temp_handler,
+            3: spo2_handler,
+            4: hr_handler,
+            5: camera_handler,
+            6: end_handler,
         }
         self.state = 0
         self.patient_id = None
         self.mqtt = MQTT()
         self.queue = Queue()
         self.db = Database()
-        # self.serial = STM32Serial()
+        self.fingerprint = Fingerprint()
+        # self.serial = STM32Serial(port="/dev/bus/usb/001/004")
 
     def next_state(self, state: int = None):
         self.state = state if state else self.state + 1
 
     def on_message(self, client, userdata, msg):
         print(msg.topic + " " + str(msg.payload.decode("utf-8")))
+        try:
+            payload = ast.literal_eval(str(msg.payload.decode("utf-8")))
+        except Exception as e:
+            payload = str(msg.payload.decode("utf-8"))
+            print(e)
+        print(type(payload))
         self.queue.put({
             "topic": msg.topic,
-            "payload": msg.payload.decode("utf-8")
+            "payload": payload
         })
 
     def start(self):
@@ -67,5 +77,6 @@ class Server:
                               sensor_data=self.sensor_data,
                               user_data=self.user_data,
                               db=self.db,
-                              patient_id=self.patient_id)
+                              patient_id=self.patient_id,
+                              fingerprint=self.fingerprint)
             self.state_handlers[self.state](handler)

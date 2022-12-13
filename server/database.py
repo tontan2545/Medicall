@@ -7,12 +7,13 @@ from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 import sys
 import logging
+import pathlib
 
 
 class Database:
     db_url = "mongodb+srv://dali:dali2908@medicall.x4hyrxq.mongodb.net/?retryWrites=true&w=majority"
     cluster_name = "sensors"
-    predictor_filepath = './data/qt_dataset.csv'
+    predictor_filepath = f'{pathlib.Path().resolve()}/server/data/qt_dataset.csv'
     db = 0
     collection = 0
     predictor = 0
@@ -41,8 +42,9 @@ class Database:
         })
 
     def insert_patient(self, data: Dict):
-        patient_id = bson.ObjectId()
+        patient_id = self.patients_collection.count_documents({}) + 1
         self.patients_collection.insert_one({"_id": patient_id, **data})
+        print("patients inserted")
         return patient_id
 
     def find_patient(self, patient_id):
